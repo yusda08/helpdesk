@@ -16,9 +16,6 @@ class HomeController extends Controller
 
     public function __invoke()
     {
-
-        $get['pegawai'] = $this->Pegawai->getApiPegawai('198505152008031001');
-        $get['user_apik'] = UserApik::all();
-        return view('home', $get);
+        return view('home');
     }
 }
