@@ -12,12 +12,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/', [LoginController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('home', HomeController::class)->name('home');
     Route::get('logout', LogoutController::class)->name('logout');
 
     Route::prefix('pegawai')->controller(PegawaiController::class)->group(function () {
+        Route::get('api-pegawai/{nip}', 'getApiPegawai');
         Route::post('load-data', 'loadPegawai');
+        Route::post('reset-account', 'resetAccount');
     });
 });
 
