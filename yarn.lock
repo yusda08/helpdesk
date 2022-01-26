@@ -2235,6 +2235,7 @@
   dependencies:
     "css-tree" "^1.1.2"
 
+<<<<<<< HEAD
 "datatables.net-bs5@^1.11.4":
   "integrity" "sha512-IFezEIKzqKJmW/N8rCLfM9rddxUJmvbggdkbsMzxSS5WZkF7qhq/swokUD0ziazyTrTpPMqxTx1OIgpbGt+g6A=="
   "resolved" "https://registry.npmjs.org/datatables.net-bs5/-/datatables.net-bs5-1.11.4.tgz"
@@ -2250,6 +2251,8 @@
   dependencies:
     "jquery" ">=1.7"
 
+=======
+>>>>>>> be6891a6590bed7cb68a412ead1f23a7868d53d7
 "debug@^3.1.1":
   "integrity" "sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz"
@@ -3274,7 +3277,11 @@
     "merge-stream" "^2.0.0"
     "supports-color" "^8.0.0"
 
+<<<<<<< HEAD
 "jquery@^3.6.0", "jquery@>=1.7":
+=======
+"jquery@^3.6.0":
+>>>>>>> be6891a6590bed7cb68a412ead1f23a7868d53d7
   "integrity" "sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw=="
   "resolved" "https://registry.npmjs.org/jquery/-/jquery-3.6.0.tgz"
   "version" "3.6.0"
@@ -5023,10 +5030,17 @@
     "picocolors" "^1.0.0"
     "stable" "^0.1.8"
 
+<<<<<<< HEAD
 "sweetalert2@^11.3.7":
   "integrity" "sha512-vteFJtuCi7NeYODZJ8fWF3dUyXHdPHGd/tjG1LG0l4DkIZM58F1JN6u/jMr0tx349RhRraZyzv0YdYPslM9hyQ=="
   "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.3.7.tgz"
   "version" "11.3.7"
+=======
+"sweetalert2@^11.3.6":
+  "integrity" "sha512-0JBlA36T1e0fuihcyvg4FjoucCOYNmbYDLrEOenGMVg1Jw7UHaC7FmDFp1qf9UGbO89pjgDJrfkThYln8TrYEQ=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.3.6.tgz"
+  "version" "11.3.6"
+>>>>>>> be6891a6590bed7cb68a412ead1f23a7868d53d7
 
 "tapable@^2.1.1", "tapable@^2.2.0":
   "integrity" "sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ=="
