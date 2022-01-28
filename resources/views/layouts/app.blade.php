@@ -7,6 +7,13 @@
     <link href="{{mix('css/app.css')}}" rel="stylesheet">
     @stack('after-styles')
     {{$style}}
+    <style>
+        .table thead tr th {
+            text-align: center;
+            font-size: 11pt;
+            background-color: rgba(168, 165, 170, 0.67);
+        }
+    </style>
 </head>
 <body>
 <x-navbar></x-navbar>
@@ -18,7 +25,7 @@
         <span class="text-muted">Aplikasi Kinerja Pemerintah Provinsi Kalimantan Selatan.</span>
     </div>
 </footer>
-<script src="{{ mix('js/app.js') }}"></script>
+
 @stack('after-script')
 {{$script}}
 </body>

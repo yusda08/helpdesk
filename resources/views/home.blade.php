@@ -17,6 +17,9 @@
             </x-card>
         </div>
         <div class="col-md-8">
+            <pre>
+                {{ json_encode($cookie, 128) }}
+            </pre>
             <div class="card-data-pegawai"></div>
         </div>
     </div>

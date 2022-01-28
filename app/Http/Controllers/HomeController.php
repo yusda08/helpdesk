@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CookieHelper;
 use App\Models\UserApik;
 
 class HomeController extends Controller
@@ -16,6 +17,7 @@ class HomeController extends Controller
 
     public function __invoke()
     {
-        return view('home');
+        $get['cookie'] = CookieHelper::logAccess();
+        return view('home', $get);
     }
 }

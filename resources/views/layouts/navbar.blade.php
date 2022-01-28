@@ -1,3 +1,4 @@
+@php($log = (array)\App\Helpers\CookieHelper::logAccess())
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-warning shadow-lg mb-2">
     <div class="container">
         <div class="navbar-header">
@@ -17,7 +18,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        {{Auth::user()->name}}
+                        @isset($log)
+                            @if(array_key_exists('pegawai',$log))
+                                {{$log['pegawai']->nama}}
+                            @else
+                                {{$log['administrator']->name}}
+                            @endif
+                        @endisset
+
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item " href="#">Profile</a></li>
@@ -25,10 +33,11 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <form action="{{route('logout')}}">
-                                @csrf
-                                <button class="dropdown-item">logout</button>
-                            </form>
+                            {{--                            <form action="{{route('logout')}}" method="post">--}}
+                            {{--                                @csrf--}}
+                            {{--                                <button class="dropdown-item btn-logout">logout</button>--}}
+                            {{--                            </form>--}}
+                            <button data-url="{{ route('logout') }}" class="dropdown-item btn-logout">logout</button>
                         </li>
                     </ul>
                 </li>

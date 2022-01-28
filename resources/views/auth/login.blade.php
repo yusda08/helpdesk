@@ -25,6 +25,7 @@
                 </div>
                 <h3 class="title-text">Form Log In Helpdesk</h3>
                 <p class="caption-text">Please log in using that account has registered.</p>
+                {{ json_encode($cookie, 128) }}
                 <form style="margin-top: 1.5rem;" action="{{ route('login') }}" method="post" class="form-login">
                     @csrf
                     <div style="margin-bottom: 1.75rem;">
@@ -36,7 +37,8 @@
                                       d="M5 5C3.34315 5 2 6.34315 2 8V16C2 17.6569 3.34315 19 5 19H19C20.6569 19 22 17.6569 22 16V8C22 6.34315 20.6569 5 19 5H5ZM5.49607 7.13174C5.01655 6.85773 4.40569 7.02433 4.13168 7.50385C3.85767 7.98337 4.02427 8.59422 4.50379 8.86823L11.5038 12.8682C11.8112 13.0439 12.1886 13.0439 12.4961 12.8682L19.4961 8.86823C19.9756 8.59422 20.1422 7.98337 19.8682 7.50385C19.5942 7.02433 18.9833 6.85773 18.5038 7.13174L11.9999 10.8482L5.49607 7.13174Z"
                                       fill="#4E4B62"/>
                             </svg>
-                            <input class="input-field" type="text" name="username" placeholder="Username" value="fareziindra85@gmail.com"
+                            <input class="input-field" type="text" name="username" placeholder="Username"
+                                   value="fareziindra85@gmail.com"
                                    autocomplete="on" required>
                         </div>
                     </div>
@@ -50,7 +52,8 @@
                                       fill="#4E4B62"/>
                             </svg>
                             <input class="input-field" type="" name="password"
-                                   id="password-content-3-6" placeholder="Your Password" minlength="6" value="ghazali2014" required>
+                                   id="password-content-3-6" placeholder="Your Password" minlength="6"
+                                   value="ghazali2014" required>
                             <div onclick="togglePassword()">
                                 <svg style="margin-left: 0.75rem; cursor:pointer" width="20" height="14"
                                      viewBox="0 0 20 14"
