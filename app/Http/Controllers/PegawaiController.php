@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HelperResponse;
-use App\Models\Pegawai;
 use App\Models\UserApik;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -11,8 +10,6 @@ use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
 {
-//    const URIAPI = '';
-
     private Client $client;
 
     public function __construct()

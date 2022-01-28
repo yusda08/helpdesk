@@ -64,11 +64,6 @@
                     </div>
                     <button class="btn btn-fill text-white d-block w-100" id="btn-login" type="submit">Log In</button>
                 </form>
-                @auth()
-                    Login
-                @else
-                    Non Login
-                @endauth
             </div>
         </div>
         <footer class="footer d-sm-block d-none">

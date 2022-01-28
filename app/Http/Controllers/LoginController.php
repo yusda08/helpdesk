@@ -22,6 +22,7 @@ class LoginController extends Controller
                 'username' => ['required', 'alpha_num', 'min:3'],
                 'password' => ['required', 'min:6']
             ]);
+            password_verify($attributes['password']);
             if (!Auth::attempt($attributes)) return HelperResponse::getStatusFalse(message: 'failed to login, please check your username and password.!!!');
             return HelperResponse::getStatusTrue(message: 'Success');
         } catch (ValidationException $e) {
