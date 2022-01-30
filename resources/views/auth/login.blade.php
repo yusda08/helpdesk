@@ -99,6 +99,12 @@
                 type: 'POST',
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
+                beforeSend: () => {
+                    $('#btn-login').html(`<i class="bi bi-arrow-repeat"></i> Loading . . .`).prop('disabled', true)
+                },
+                complete: () => {
+                    $('#btn-login').html(`Log in`).prop('disabled', false)
+                },
                 success: (response) => {
                     if (response.status) {
                         Swal.fire({

@@ -46,4 +46,49 @@
 
         });
     })
+
+    const swalAction = (url, data, paramt = {}) => {
+        const btnAction = paramt.textBtn ?? 'Delete ';
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        return swalWithBootstrapButtons.fire({
+            title: paramt.title ?? `Apa anda yakin ?`,
+            text: `Silahkan Klik Tombol ${btnAction} Untuk melakukan Aksi`,
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: btnAction,
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    data: data,
+                    success: (response) => {
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then((result) => {
+                                window.location.reload();
+                            })
+                        } else {
+                            Swal.fire('Failed', response.message, 'error')
+                        }
+                    },
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire('Cancelled', 'reset status canceled', 'error')
+            }
+        })
+    }
 </script>

@@ -26,10 +26,13 @@ Route::middleware(['logged'])->group(function () {
     });
 
     Route::middleware(['pegawai'])->group(function () {
-        Route::prefix('complaint')->name('complaint')->controller(ComplaintController::class)->group(function () {
-            Route::get('/', 'index');
-        });
+        Route::prefix('complaint')
+            ->controller(ComplaintController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('complaint');
+                Route::post('/', 'store');
+                Route::post('delete', 'delete');
+            });
     });
-
 });
 
