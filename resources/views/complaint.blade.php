@@ -79,16 +79,17 @@
                             </p>
                             <div class="d-md-flex justify-content-md-between">
                                 <div>
-                                    <button class="btn btn-primary btn-upload-images">
+                                    <button class="btn btn-primary btn-upload-images"
+                                            data-params="{{ json_encode($complaint)}}">
                                         <i class="bi bi-pencil-square"></i> Input Image
                                     </button>
-                                    <a href="#" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
                                     <button data-ticket_id="{{$complaint['ticket_id']}}"
                                             class="btn btn-danger btn-delete"><i class="bi bi-trash"></i></button>
                                 </div>
                                 <div>
                                     <button class="btn btn-outline-primary"><i class="bi bi-power"></i> Posting</button>
-                                    <a href="#" class="btn btn-outline-warning"><i class="bi bi-search"></i> View</a>
+                                    <button class="btn btn-outline-warning btn-view"><i class="bi bi-search"></i> View
+                                    </button>
                                 </div>
                             </div>
                         </x-card>
@@ -101,14 +102,55 @@
             </x-card>
         </div>
     </div>
+    <x-modal id="modal-images">
+        <form method="POST" action="{{ route('complaint-images') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Input File Images</label>
+                <input class="form-control" type="file" name="image">
+            </div>
+            <x-input type="hidden" name="ticket_code" attr="readonly"/>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save changes</button>
+        </form>
+    </x-modal>
+    <x-modal id="modal-view">
+        <div class="data-images">
+            <div class="row">
+                <div class="col-md-6">
+                    <x-card>
+                        <p>Card</p>
+                    </x-card>
+                </div>
+            </div>
+        </div>
+    </x-modal>
     @include('js.global')
     @slot('script')
         <script>
+            $('.btn-upload-images').click(function () {
+                const params = $(this).data('params');
+                const tagModal = $('#modal-images');
+                tagModal.modal('show');
+                tagModal.find('.modal-title').text('Form Input Images')
+                tagModal.find('.ticket_code').val(params.ticket_code)
+            })
+            $('.btn-view').click(function () {
+                const params = $(this).data('params');
+                const tagModal = $('#modal-view');
+                tagModal.modal('show');
+                tagModal.find('.modal-title').text('View Image')
+
+            })
             $('.btn-delete').click(function () {
                 const ticket_id = $(this).data('ticket_id')
                 console.log(ticket_id)
                 swalAction(BASEURL('complaint/delete'), {ticket_id, _token: "{{ csrf_token() }}"});
             });
+
+            const loadDataImages = (params) => {
+                return $.getJSON(BASEURL(''), {params});
+            }
         </script>
     @endslot
 </x-app-layout>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use PhpParser\Builder;
 
-class ComplaintTickets extends Model
+class ComplaintTicket extends Model
 {
     use HasFactory;
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\ComplaintImageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -26,13 +27,18 @@ Route::middleware(['logged'])->group(function () {
     });
 
     Route::middleware(['pegawai'])->group(function () {
-        Route::prefix('complaint')
-            ->controller(ComplaintController::class)
-            ->group(function () {
-                Route::get('/', 'index')->name('complaint');
-                Route::post('/', 'store');
-                Route::post('delete', 'delete');
-            });
+        Route::prefix('complaint')->controller(ComplaintController::class)->group(function () {
+            Route::get('/', 'index')->name('complaint');
+            Route::post('/', 'store');
+            Route::post('store-image', 'storeImage')->name('store-image');
+            Route::post('delete', 'delete');
+        });
+    });
+
+    Route::prefix('complaint-image')->controller(ComplaintImageController::class)->group(function () {
+        Route::get('/', 'index')->name('complaint-images');
+        Route::post('/', 'store');
+        Route::get('load-image/{complaint_image}', 'loadComplaintImages');
     });
 });
 

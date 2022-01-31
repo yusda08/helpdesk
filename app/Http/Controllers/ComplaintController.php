@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
 use App\Http\Requests\ComplaintRequest;
-use App\Models\ComplaintTickets;
+use App\Models\ComplaintImage;
+use App\Models\ComplaintTicket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -17,7 +18,7 @@ class ComplaintController extends Controller
 
         $pegawai = CookieHelper::logAccess()->pegawai;
         return view('complaint', [
-            'complaints' => ComplaintTickets::search(request(['search']))->where(['nip' => $pegawai->nip])->latest()->get(),
+            'complaints' => ComplaintTicket::search(request(['search']))->where(['nip' => $pegawai->nip])->latest()->get(),
             'pegawai' => $pegawai
         ]);
     }
@@ -28,10 +29,33 @@ class ComplaintController extends Controller
             $data = $request->all();
             $data['ticket_code'] = Str::upper(Str::random(10));
             $data['ticket_date'] = date("Y-m-d H:i:s");
-            ComplaintTickets::create($data);
+            ComplaintTicket::create($data);
             $response = HelperResponse::getStatusTrue('Success add data complaint.');
         } catch (\Exception $exception) {
-            $response = HelperResponse::getStatusTrue($exception->getMessage());
+            $response = HelperResponse::getStatusFalse($exception->getMessage());
+        }
+        $this->setFlash($response['message'], $response['status']);
+        return back();
+    }
+
+    public function storeImage(Request $request)
+    {
+        try {
+            $request->validate([
+                'ticket_code' => 'required',
+                'image' => 'required|image|file|max:4096'
+            ]);
+            $data['file_image'] = $request->file('image')->store('complaint-images');
+            $data['ticket_code'] = $request->post('ticket_code');
+            ComplaintImage::create($data);
+//            $save =     new ComplaintImage;
+//            $save->file_image = $request->file('image')->store('complaint-images');
+//            $save->ticket_code = $request->post('ticket_code');
+//            $save->save();
+
+            $response = HelperResponse::getStatusTrue('Success input images.');
+        } catch (\Exception $exception) {
+            $response = HelperResponse::getStatusFalse($exception->getMessage());
         }
         $this->setFlash($response['message'], $response['status']);
         return back();
@@ -41,7 +65,7 @@ class ComplaintController extends Controller
     {
         try {
             $ticket_id = $request->post('ticket_id');
-            ComplaintTickets::where('ticket_id', $ticket_id)->delete();
+            ComplaintTicket::where('ticket_id', $ticket_id)->delete();
             $response = HelperResponse::getStatusTrue('Success deleted data.');
         } catch (\Exception $exception) {
             $response = HelperResponse::getStatusTrue($exception->getMessage());
