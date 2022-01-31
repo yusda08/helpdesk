@@ -18,7 +18,9 @@ class ComplaintController extends Controller
 
         $pegawai = CookieHelper::logAccess()->pegawai;
         return view('complaint', [
-            'complaints' => ComplaintTicket::search(request(['search']))->where(['nip' => $pegawai->nip])->latest()->get(),
+            'complaints' => ComplaintTicket::search(request(['search']))
+                ->where(['nip' => $pegawai->nip])->latest()
+                ->paginate(5)->withQueryString(),
             'pegawai' => $pegawai
         ]);
     }
@@ -38,28 +40,6 @@ class ComplaintController extends Controller
         return back();
     }
 
-    public function storeImage(Request $request)
-    {
-        try {
-            $request->validate([
-                'ticket_code' => 'required',
-                'image' => 'required|image|file|max:4096'
-            ]);
-            $data['file_image'] = $request->file('image')->store('complaint-images');
-            $data['ticket_code'] = $request->post('ticket_code');
-            ComplaintImage::create($data);
-//            $save =     new ComplaintImage;
-//            $save->file_image = $request->file('image')->store('complaint-images');
-//            $save->ticket_code = $request->post('ticket_code');
-//            $save->save();
-
-            $response = HelperResponse::getStatusTrue('Success input images.');
-        } catch (\Exception $exception) {
-            $response = HelperResponse::getStatusFalse($exception->getMessage());
-        }
-        $this->setFlash($response['message'], $response['status']);
-        return back();
-    }
 
     public final function delete(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -69,6 +49,20 @@ class ComplaintController extends Controller
             $response = HelperResponse::getStatusTrue('Success deleted data.');
         } catch (\Exception $exception) {
             $response = HelperResponse::getStatusTrue($exception->getMessage());
+        }
+        return response()->json($response);
+    }
+
+    public function posting(ComplaintTicket $ticket)
+    {
+        try {
+//            echo json_encode($ticket);
+//            die();
+            $data = ['ticket_posting' => 1];
+            ComplaintTicket::where('ticket_id', $ticket->ticket_id)->update($data);
+            $response = HelperResponse::getStatusTrue('Success');
+        } catch (\Exception $exception) {
+            $response = HelperResponse::getStatusFalse($exception->getMessage());
         }
         return response()->json($response);
     }

@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Helpers\CookieHelper;
 use Illuminate\View\Component;
 
 class Navbar extends Component
@@ -23,6 +24,23 @@ class Navbar extends Component
      */
     public function render()
     {
-        return view('layouts.navbar');
+        $cookie = CookieHelper::logAccess();
+        $navbar = [];
+        if ($administrator = $cookie->administrator) {
+            if ($administrator->level_id === 1) {
+                $navbar = [
+                    'Home' => '/',
+                    'Feedback' => 'feedback',
+                    'Users' => 'user',
+                    'Mapping' => 'mapping',
+                ];
+            } elseif ($administrator->level_id === 2) {
+                $navbar = [
+                    'Home' => '/',
+                    'Feedback' => 'feedback'
+                ];
+            }
+        }
+        return view('layouts.navbar', compact('navbar'));
     }
 }

@@ -18,6 +18,7 @@
         </div>
         <div class="col-md-8">
             <div class="card-data-pegawai"></div>
+            {{ json_encode($cookie, 128) }}
         </div>
     </div>
     @include('js.select2')

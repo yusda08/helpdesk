@@ -12,7 +12,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+                @foreach($navbar as $name => $url)
+                    <li class="nav-item mx-2">
+                        <a style="color: black; font-weight: bold" class="nav-link" href="{{$url}}">{{ $name }}</a>
+                    </li>
+                @endforeach
             </ul>
             <ul class="navbar-nav d-flex">
                 <li class="nav-item dropdown">

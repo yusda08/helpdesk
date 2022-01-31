@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'logged' => \App\Http\Middleware\IsLogged::class,
         'pegawai' => \App\Http\Middleware\Pegawai::class,
         'administrator' => \App\Http\Middleware\Administrator::class,
+        'admin' => \App\Http\Middleware\Admin::class,
     ];
 }

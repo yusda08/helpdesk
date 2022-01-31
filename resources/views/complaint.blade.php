@@ -1,4 +1,39 @@
 <x-app-layout title="Home Page">
+    <style>
+        .image {
+            position: relative;
+            width: 100%;
+            overflow: hidden
+        }
+
+        .image .overlay {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+            color: white;
+            font-size: 20px;
+            z-index: 5
+        }
+
+        .image .overlay::before {
+            content: "";
+            background: #ffff;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            bottom: -150px;
+            z-index: -2;
+            opacity: 0.5;
+            transition: all 0.3s ease-out
+        }
+
+        .image:hover .overlay {
+            color: black
+        }
+    </style>
     <div class="row-cols-1">
         <h3 class="mb-0">Complaint</h3>
     </div>
@@ -74,23 +109,33 @@
                                     <li class="list-group-item">{{$ex}}</li>
                                 @endforeach
                             </ol>
-                            <p class="card-text">
-
-                            </p>
-                            <div class="d-md-flex justify-content-md-between">
-                                <div>
-                                    <button class="btn btn-primary btn-upload-images"
-                                            data-params="{{ json_encode($complaint)}}">
-                                        <i class="bi bi-pencil-square"></i> Input Image
-                                    </button>
-                                    <button data-ticket_id="{{$complaint['ticket_id']}}"
-                                            class="btn btn-danger btn-delete"><i class="bi bi-trash"></i></button>
-                                </div>
-                                <div>
-                                    <button class="btn btn-outline-primary"><i class="bi bi-power"></i> Posting</button>
-                                    <button class="btn btn-outline-warning btn-view"><i class="bi bi-search"></i> View
-                                    </button>
-                                </div>
+                            <div class="d-sm-flex justify-content-between mt-3">
+                                @if($complaint['ticket_posting'] == 0)
+                                    <div>
+                                        <button class="btn btn-primary btn-upload-images"
+                                                data-params="{{ json_encode($complaint)}}">
+                                            <i class="bi bi-pencil-square"></i> Input Image
+                                        </button>
+                                        <button data-ticket_code="{{$complaint['ticket_code']}}"
+                                                class="btn btn-danger btn-delete"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                    <div>
+                                        <button data-ticket_code="{{$complaint['ticket_code']}}"
+                                                class="btn btn-outline-primary btn-posting"><i class="bi bi-power"></i>
+                                            Posting
+                                        </button>
+                                        <button class="btn btn-outline-warning btn-view"
+                                                data-ticket_code="{{$complaint['ticket_code']}}">
+                                            <i class="bi bi-search"></i> View Image
+                                        </button>
+                                    </div>
+                                @else
+                                    <div>
+                                        <a href="#" class="btn btn-warning btn-feedback">
+                                            <i class="bi bi-search"></i> View Feedback
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </x-card>
                     @endforeach
@@ -99,6 +144,9 @@
                         <p class="text-center mt-3 fs-4"> No Complaint found.</p>
                     </x-card>
                 @endif
+                <div class="d-flex justify-content-center mt-5">
+                    {{ $complaints->links() }}
+                </div>
             </x-card>
         </div>
     </div>
@@ -114,16 +162,8 @@
             <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save changes</button>
         </form>
     </x-modal>
-    <x-modal id="modal-view">
-        <div class="data-images">
-            <div class="row">
-                <div class="col-md-6">
-                    <x-card>
-                        <p>Card</p>
-                    </x-card>
-                </div>
-            </div>
-        </div>
+    <x-modal id="modal-view" type="modal-lg">
+        <div class="row data-images"></div>
     </x-modal>
     @include('js.global')
     @slot('script')
@@ -135,21 +175,55 @@
                 tagModal.find('.modal-title').text('Form Input Images')
                 tagModal.find('.ticket_code').val(params.ticket_code)
             })
-            $('.btn-view').click(function () {
-                const params = $(this).data('params');
+            $('.btn-view').click(async function () {
+                const ticket_code = $(this).data('ticket_code');
                 const tagModal = $('#modal-view');
                 tagModal.modal('show');
                 tagModal.find('.modal-title').text('View Image')
-
+                const dataImages = await loadDataImages(ticket_code);
+                const htmlImage = htmlImages(dataImages.data);
+                $('.data-images').html(htmlImage);
             })
             $('.btn-delete').click(function () {
                 const ticket_id = $(this).data('ticket_id')
-                console.log(ticket_id)
                 swalAction(BASEURL('complaint/delete'), {ticket_id, _token: "{{ csrf_token() }}"});
             });
 
-            const loadDataImages = (params) => {
-                return $.getJSON(BASEURL(''), {params});
+            $('.btn-posting').click(function () {
+                const ticket_code = $(this).data('ticket_code')
+                swalAction(BASEURL(`complaint/posting/${ticket_code}`),
+                    {_token: "{{ csrf_token() }}"},
+                    {textBtn: 'Posting'}
+                );
+            });
+
+            $(document).on('click', '.btn-delete-image', function () {
+                const image_id = $(this).data('image_id')
+                swalAction(BASEURL(`complaint-image/delete/${image_id}`), {_token: "{{ csrf_token() }}"});
+            });
+
+            const htmlImages = (images) => {
+                let html = '';
+                images.forEach(image => {
+                    html += `<div class="col-md-6 mt-2 text-center">
+                                <div class="card">
+                                    <div class="image">
+                                        <img src="${BASEURL(`storage/${image.file_image}`)}"
+                                            class="img-fluid" style="height: 250px"/>
+                                        <div class="overlay d-grid gap-2">
+                                            <button data-image_id="${image.image_id}" class="btn btn-outline-danger btn-sm btn-delete-image"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                });
+                console.log(html)
+                return html;
+            }
+
+            const loadDataImages = (ticket_code) => {
+                return $.getJSON(BASEURL(`complaint-image/load-image/${ticket_code}`));
             }
         </script>
     @endslot

@@ -47,8 +47,8 @@
         });
     })
 
-    const swalAction = (url, data, paramt = {}) => {
-        const btnAction = paramt.textBtn ?? 'Delete ';
+    const swalAction = (url, data, params = {}) => {
+        const btnAction = params.textBtn ?? 'Delete ';
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -57,7 +57,7 @@
             buttonsStyling: false
         })
         return swalWithBootstrapButtons.fire({
-            title: paramt.title ?? `Apa anda yakin ?`,
+            title: params.title ?? `Apa anda yakin ?`,
             text: `Silahkan Klik Tombol ${btnAction} Untuk melakukan Aksi`,
             icon: 'info',
             showCancelButton: true,

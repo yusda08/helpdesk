@@ -3,26 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HelperResponse;
+use App\Http\Requests\ComplaintImageRequest;
 use App\Models\ComplaintImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ComplaintImageController extends Controller
 {
 
-    public function loadComplaintImages(ComplaintImage $complaint_image)
-    {
-        $images = $complaint_image::all();
-        echo json_encode($images);
-        die();
-    }
-
-    public function store(Request $request)
+    public final function loadComplaintImages($ticket_code)
     {
         try {
-            $request->validate([
-                'ticket_code' => 'required',
-                'image' => 'required|image|file|max:4096'
-            ]);
+            $data = ComplaintImage::where('ticket_code', $ticket_code)->get();
+            $response = HelperResponse::getStatusTrue(message: 'success', data: json_decode($data, true));
+        } catch (\Exception $exception) {
+            $response = HelperResponse::getStatusFalse($exception->getMessage());
+        }
+        return response()->json($response);
+    }
+
+    public final function store(ComplaintImageRequest $request): \Illuminate\Http\RedirectResponse
+    {
+        try {
             $data['file_image'] = $request->file('image')->store('complaint-images');
             $data['ticket_code'] = $request->post('ticket_code');
             ComplaintImage::create($data);
@@ -32,6 +34,21 @@ class ComplaintImageController extends Controller
         }
         $this->setFlash($response['message'], $response['status']);
         return back();
+    }
+
+    public final function destroy(ComplaintImage $images)
+    {
+        try {
+//            echo json_encode($images);
+//            die();
+            $bool = (bool)ComplaintImage::destroy($images['image_id']);
+            if (!$bool) throw new \Exception('Gagal Menghapus Data');
+            Storage::delete($images->file_image);
+            $response = HelperResponse::getStatusTrue('Success');
+        } catch (\Throwable $th) {
+            $response = HelperResponse::getStatusFalse($th->getMessage());
+        }
+        return response()->json($response);
     }
 
 }

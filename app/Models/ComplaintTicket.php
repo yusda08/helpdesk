@@ -40,4 +40,9 @@ class ComplaintTicket extends Model
             });
         });
     }
+
+    public function getRouteKeyName()
+    {
+        return 'ticket_code';
+    }
 }
