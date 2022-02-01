@@ -28,10 +28,7 @@ class ComplaintTicket extends Model
         'updated_at'
     ];
 
-//    protected $hidden = [
-//        'created_at',
-//        'updated_at'
-//    ];
+    protected $with = ['user_map', 'images'];
 
     public final function scopeSearch($query, array $filters)
     {
@@ -46,5 +43,15 @@ class ComplaintTicket extends Model
     public function getRouteKeyName()
     {
         return 'ticket_code';
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ComplaintImage::class, 'ticket_code', 'ticket_code');
+    }
+
+    public function user_map()
+    {
+        return $this->belongsTo(UserMap::class, 'unit_kerja_kode', 'unit_kerja_kode');
     }
 }

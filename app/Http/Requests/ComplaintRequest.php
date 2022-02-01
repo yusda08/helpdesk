@@ -30,6 +30,8 @@ class ComplaintRequest extends FormRequest
             'employee_name' => 'required',
             'employee_position' => 'required',
             'employee_unit' => 'required',
+            'employee_satket' => 'required',
+            'unit_kerja_kode' => 'required',
         ];
     }
 }

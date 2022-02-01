@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ComplaintImageController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -39,7 +40,14 @@ Route::middleware(['logged'])->group(function () {
             Route::prefix('mapping')->controller(MappingController::class)->group(function () {
                 Route::get('/', 'index')->name('mapping');
                 Route::post('/', 'store');
+                Route::post('delete/{map_id}', 'destroy');
             });
+        });
+
+        Route::prefix('feedback')->controller(FeedbackController::class)->group(function () {
+            Route::get('/', 'index')->name('feedback');
+            Route::put('/{complaint_ticket:ticket_code}', 'updateStatus');
+            Route::get('detail/{complaint_ticket:ticket_code}', 'detail')->name('feedback-detail');
         });
 
         Route::prefix('unit')->controller(UnitController::class)->group(function () {

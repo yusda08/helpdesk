@@ -13,6 +13,7 @@ class ComplaintImage extends Model
     protected $primaryKey = 'image_id';
     protected $fillable = ['ticket_code', 'file_image', 'created_at', 'updated_at'];
 
+    protected $hidden = ['created_at', 'updated_at'];
 //    public function getRouteKeyName()
 //    {
 //        return 'ticket_code';

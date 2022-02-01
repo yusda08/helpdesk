@@ -60,6 +60,8 @@
                              value="{{ $pegawai->gelar_depan.' '.$pegawai->nama.' '.$pegawai->gelar_belakang }}"/>
                     <x-input type="hidden" name="employee_position" value="{{ Str::title($pegawai->jabatan) }}"/>
                     <x-input type="hidden" name="employee_unit" value="{{ Str::title($pegawai->unker) }}"/>
+                    <x-input type="hidden" name="employee_satket" value="{{ Str::title($pegawai->satker) }}"/>
+                    <x-input type="" name="unit_kerja_kode" value="{{ Str::title($pegawai->kode_unker) }}"/>
                     <button class="btn btn-warning" type="submit">
                         <i class="fa fa-save"></i> Simpan
                     </button>

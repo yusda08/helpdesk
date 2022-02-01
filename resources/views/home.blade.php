@@ -15,10 +15,13 @@
                     </select>
                 </div>
             </x-card>
+            <x-card>
+                <h5 class="card-title">Total Complaint</h5>
+                <p class="card-text fs-3">100</p>
+            </x-card>
         </div>
         <div class="col-md-8">
             <div class="card-data-pegawai"></div>
-            {{ json_encode($cookie, 128) }}
         </div>
     </div>
     @include('js.select2')

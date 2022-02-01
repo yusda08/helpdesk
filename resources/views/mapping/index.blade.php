@@ -40,7 +40,8 @@
                                                 <div class="ms-2 me-auto">
                                                     {{ $map->unit_kerja_nama }}
                                                 </div>
-                                                <button class="btn btn-danger btn-sm rounded-pill">
+                                                <button data-map_id="{{ $map->map_id }}"
+                                                        class="btn btn-danger btn-sm rounded-pill btn-delete">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </li>
@@ -68,7 +69,7 @@
                 </thead>
                 <tbody></tbody>
             </table>
-            <x-input type="" name="user_id" attr="readonly"/>
+            <x-input type="hidden" name="user_id" attr="readonly"/>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save changes</button>
         </form>
@@ -77,8 +78,8 @@
     @slot('script')
         <script>
             $('.btn-delete').click(function () {
-                const id = $(this).data('id')
-                swalAction(BASEURL(`user/delete/${id}`), {_token: "{{ csrf_token() }}"});
+                const map_id = $(this).data('map_id')
+                swalAction(BASEURL(`mapping/delete/${map_id}`), {_token: "{{ csrf_token() }}"});
             })
             $('.btn-add').click(async function () {
                 const user_id = $(this).data('user_id');
