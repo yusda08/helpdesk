@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-{{$col ?? '12'}}">
         <div class="alert alert-{{$type}} alert-dismissible fade show" id="notif" role="alert">
             <i class="bi {{ $status ?  'bi-check-circle-fill' : 'bi-exclamation-triangle-fill' }}"></i>
             <strong> {{$title}}</strong>

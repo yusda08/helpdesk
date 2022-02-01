@@ -26,7 +26,8 @@ class Navbar extends Component
     {
         $cookie = CookieHelper::logAccess();
         $navbar = [];
-        if ($administrator = $cookie->administrator) {
+        if (isset($cookie->administrator)) {
+            $administrator = $cookie->administrator;
             if ($administrator->level_id === 1) {
                 $navbar = [
                     'Home' => '/',

@@ -98,7 +98,8 @@
                                     <h5 class="card-title">Tanggal
                                         : {{ date('d-m-Y', strtotime($complaint['ticket_date'])) }}<br>
                                         <small
-                                            class="text-muted">At. {{date('H:i:s', strtotime($complaint['ticket_date']))}}</small>
+                                            class="text-muted">At. {{date('H:i:s', strtotime($complaint['ticket_date']))}}
+                                            , {{  $complaint->created_at->diffForHumans()}}</small>
                                     </h5>
                                 </div>
                             </div>
@@ -113,7 +114,7 @@
                                 @if($complaint['ticket_posting'] == 0)
                                     <div>
                                         <button class="btn btn-primary btn-upload-images"
-                                                data-params="{{ json_encode($complaint)}}">
+                                                data-ticket_code="{{$complaint['ticket_code']}}">
                                             <i class="bi bi-pencil-square"></i> Input Image
                                         </button>
                                         <button data-ticket_code="{{$complaint['ticket_code']}}"
@@ -169,11 +170,11 @@
     @slot('script')
         <script>
             $('.btn-upload-images').click(function () {
-                const params = $(this).data('params');
+                const ticket_code = $(this).data('ticket_code');
                 const tagModal = $('#modal-images');
                 tagModal.modal('show');
                 tagModal.find('.modal-title').text('Form Input Images')
-                tagModal.find('.ticket_code').val(params.ticket_code)
+                tagModal.find('.ticket_code').val(ticket_code)
             })
             $('.btn-view').click(async function () {
                 const ticket_code = $(this).data('ticket_code');

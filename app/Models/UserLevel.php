@@ -13,4 +13,9 @@ class UserLevel extends Model
     protected $primaryKey = 'level_id';
     protected $guarded = [];
 
+    public function users()
+    {
+        return $this->hasMany(User::class, 'level_id');
+    }
+
 }

@@ -15,9 +15,11 @@ class ComplaintTicket extends Model
     protected $fillable = [
         'ticket_code',
         'nip',
+        'unit_kerja_kode',
         'employee_name',
         'employee_position',
         'employee_unit',
+        'employee_satket',
         'ticket_title',
         'ticket_desc',
         'ticket_date',

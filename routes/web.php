@@ -5,7 +5,9 @@ use App\Http\Controllers\ComplaintImageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\MappingController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +31,19 @@ Route::middleware(['logged'])->group(function () {
         Route::middleware(['admin'])->group(function () {
             Route::prefix('user')->controller(UserController::class)->group(function () {
                 Route::get('/', 'index')->name('user');
+                Route::post('/', 'store');
+                Route::post('reset-password/{id}', 'resetPassword');
+                Route::post('update-status/{user}', 'updateStatus');
+                Route::post('delete/{id}', 'destroy');
             });
+            Route::prefix('mapping')->controller(MappingController::class)->group(function () {
+                Route::get('/', 'index')->name('mapping');
+                Route::post('/', 'store');
+            });
+        });
+
+        Route::prefix('unit')->controller(UnitController::class)->group(function () {
+            Route::get('load-unit', 'loadUnit');
         });
 
     });
@@ -54,5 +68,6 @@ Route::middleware(['logged'])->group(function () {
         Route::post('delete/{images}', 'destroy');
         Route::get('load-image/{ticket_code}', 'loadComplaintImages');
     });
+
 });
 
