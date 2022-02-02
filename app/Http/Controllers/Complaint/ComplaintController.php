@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Complaint;
 
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ComplaintRequest;
 use App\Models\ComplaintTicket;
 use App\Models\FeedbackTicket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use function back;
+use function response;
+use function view;
 
 class ComplaintController extends Controller
 {
@@ -21,7 +25,8 @@ class ComplaintController extends Controller
             'complaints' => ComplaintTicket::search(request(['search']))
                 ->where(['nip' => $pegawai->nip])->latest()
                 ->paginate(5)->withQueryString(),
-            'pegawai' => $pegawai
+            'pegawai' => $pegawai,
+            'categories' => $this->categories()
         ]);
     }
 
@@ -40,6 +45,7 @@ class ComplaintController extends Controller
     {
         try {
             $data = $request->all();
+            $data['ticket_categories'] = implode(', ', $request->post('categories'));
             $data['ticket_code'] = Str::upper(Str::random(10));
             $data['ticket_date'] = date("Y-m-d H:i:s");
             ComplaintTicket::create($data);

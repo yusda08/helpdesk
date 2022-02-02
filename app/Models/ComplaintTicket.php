@@ -20,6 +20,7 @@ class ComplaintTicket extends Model
         'employee_position',
         'employee_unit',
         'employee_satker',
+        'ticket_categories',
         'ticket_title',
         'ticket_desc',
         'ticket_date',
@@ -35,7 +36,9 @@ class ComplaintTicket extends Model
         $query->when($filters['search'] ?? false, function ($query, $search) {
             return $query->where(function ($query) use ($search) {
                 $query->where("ticket_title", "like", "%$search%")
-                    ->orWhere("ticket_desc", "like", "%$search%");
+                    ->orWhere("ticket_code", "like", "%$search%")
+                    ->orWhere("ticket_desc", "like", "%$search%")
+                    ->orWhere("ticket_categories", "like", "%$search%");
             });
         });
     }
@@ -57,7 +60,7 @@ class ComplaintTicket extends Model
 
     public function feedbacks()
     {
-        return $this->hasMany(FeedbackTicket::class, 'ticket_code', 'ticket_code');
+        return $this->hasMany(FeedbackTicket::class, 'ticket_code', 'ticket_code')->latest();
     }
 
     public function rating()

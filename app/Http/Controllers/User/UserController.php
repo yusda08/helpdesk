@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\UserLevel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use function back;
+use function request;
+use function response;
+use function view;
 
 class UserController extends Controller
 {

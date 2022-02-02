@@ -1,6 +1,6 @@
 <x-app-layout title="Home Page">
     <x-slot name="ribbon">
-        Feedback
+        History
     </x-slot>
     <div class="row justify-content-center">
         <div class="col-md-9">
@@ -83,9 +83,9 @@
                         <p class="text-center mt-3 fs-4"> No Complaint found.</p>
                     </x-card>
                 @endif
-                    <div class="d-flex justify-content-center">
-                        {{ $complaints->links() }}
-                    </div>
+                <div class="d-flex justify-content-center">
+                    {{ $complaints->links() }}
+                </div>
             </x-card>
         </div>
     </div>

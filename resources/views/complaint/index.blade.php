@@ -1,50 +1,24 @@
 <x-app-layout title="Home Page">
-    <style>
-        .image {
-            position: relative;
-            width: 100%;
-            overflow: hidden
-        }
-
-        .image .overlay {
-            position: absolute;
-            bottom: 0;
-            text-align: center;
-            width: 100%;
-            color: white;
-            font-size: 20px;
-            z-index: 5
-        }
-
-        .image .overlay::before {
-            content: "";
-            background: #ffff;
-            height: 100%;
-            width: 100%;
-            z-index: 1;
-            position: absolute;
-            left: 0;
-            bottom: -150px;
-            z-index: -2;
-            opacity: 0.5;
-            transition: all 0.3s ease-out
-        }
-
-        .image:hover .overlay {
-            color: black
-        }
-    </style>
-    <div class="row-cols-1">
-        <h3 class="mb-0">Complaint</h3>
-    </div>
+    <x-slot name="ribbon">
+        Complaint
+    </x-slot>
     <div class="row">
         <div class="col-md-4">
             <x-card>
                 @slot('header')
-                    Form Input Deskripsi Komplain
+                    Form Input Data Keluhan
                 @endslot
                 <form method="POST" action="{{ route('complaint') }}">
                     @csrf
+                    <div class="mb-3">
+                        <label>Kategori Keluhan</label>
+                        <select class="select2" multiple="multiple" name="categories[]" style="width: 100%"
+                                required>
+                            @foreach($categories as $category)
+                                <option value="{{$category}}">{{$category}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <x-input title="Judul" name="ticket_title" attr="autofocus" value="{{old('ticket_title')}}"/>
                     <div class="mb-3">
                         <label>Deskripsi</label>
@@ -92,26 +66,37 @@
                 @if($complaints->count())
                     @foreach($complaints as $complaint)
                         <x-card>
-                            <div class="d-md-flex justify-content-between">
-                                <div>
-                                    <h5 class="card-title">Tiket : {{ $complaint['ticket_code'] }}</h5>
-                                </div>
-                                <div>
-                                    <h5 class="card-title">Tanggal
-                                        : {{ date('d-m-Y', strtotime($complaint['ticket_date'])) }}<br>
-                                        <small
-                                            class="text-muted">At. {{date('H:i:s', strtotime($complaint['ticket_date']))}}
-                                            , {{  $complaint->created_at->diffForHumans()}}</small>
-                                    </h5>
+                            <div class="row form-group">
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <div class="">
+                                        <h5 class="card-title">Tiket : {{ $complaint['ticket_code'] }}</h5>
+                                        <br>
+                                        @php($explodCategories = explode(',', $complaint['ticket_categories']))
+                                        @foreach($explodCategories as $category)
+                                            <span class="badge bg-warning text-black fs-5">{{$category}}</span>
+                                        @endforeach
+                                    </div>
+                                    <div class="text-right">
+                                        <h6 class="card-title ">{{ date('d-m-Y', strtotime($complaint['ticket_date'])) }}
+                                            <br>
+                                            <small
+                                                class="text-muted">At. {{date('H:i:s', strtotime($complaint['ticket_date']))}}
+                                                , {{  $complaint->created_at->diffForHumans()}}</small>
+                                        </h6>
+                                    </div>
                                 </div>
                             </div>
-                            <span class="fs-5">{{$complaint['ticket_title']}}</span>
-                            @php($explod = explode(',', $complaint['ticket_desc']))
-                            <ol class="list-group list-group-numbered">
-                                @foreach($explod as $ex)
-                                    <li class="list-group-item">{{$ex}}</li>
-                                @endforeach
-                            </ol>
+                            <div class="row ">
+                                <div class="col-md-12">
+                                    <p class="fs-5 mb-1">{{$complaint['ticket_title']}}</p>
+                                    @php($explod = explode(',', $complaint['ticket_desc']))
+                                    <ol class="list-group list-group-numbered">
+                                        @foreach($explod as $ex)
+                                            <li class="list-group-item">{{$ex}}</li>
+                                        @endforeach
+                                    </ol>
+                                </div>
+                            </div>
                             <div class="d-sm-flex justify-content-between mt-3">
                                 @if($complaint['ticket_posting'] == 0)
                                     <div>
@@ -143,7 +128,8 @@
                                         <div>
                                             Rating :
                                             @for ($i = 0; $i < $complaint['rating']['rating_star'] ; $i++)
-                                                <span class="bi bi-star-fill" style="font-size: 16pt;color: #ffaf11"></span>
+                                                <span class="bi bi-star-fill"
+                                                      style="font-size: 16pt;color: #ffaf11"></span>
                                             @endfor
                                         </div>
                                     @endif
@@ -156,7 +142,7 @@
                         <p class="text-center mt-3 fs-4"> No Complaint found.</p>
                     </x-card>
                 @endif
-                <div class="d-flex justify-content-center mt-5">
+                <div class="d-flex justify-content-center">
                     {{ $complaints->links() }}
                 </div>
             </x-card>

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Complaint;
 
 use App\Helpers\HelperResponse;
-use App\Models\ComplaintTicket;
+use App\Http\Controllers\Controller;
 use App\Models\RatingStar;
 use App\Models\RatingTicket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use function back;
 
 class RatingController extends Controller
 {

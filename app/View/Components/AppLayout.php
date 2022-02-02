@@ -14,6 +14,7 @@ class AppLayout extends Component
      */
     public function __construct(
         public ?string $title = null,
+        public ?string $ribbon = null,
         public ?string $style = null,
         public ?string $script = null,
     )

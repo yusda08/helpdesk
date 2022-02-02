@@ -5,12 +5,10 @@ namespace App\Services;
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
 use App\Helpers\JwtHelper;
-use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\Utility\PegawaiController;
 use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 
 class AuthService

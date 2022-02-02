@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
-use App\Helpers\JwtHelper;
+use App\Http\Controllers\Controller;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use function view;
 
 class LoginController extends Controller
 {

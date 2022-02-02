@@ -14,3 +14,4 @@ mix.setPublicPath('public');
 mix.js('resources/js/app.js', 'js');
 mix.sass('resources/sass/app.scss', 'css');
 mix.sass('resources/sass/auth.scss', 'css');
+mix.css('resources/css/adminlte.css', 'public/css');
