@@ -134,10 +134,19 @@
                                     </div>
                                 @else
                                     <div>
-                                        <a href="#" class="btn btn-warning btn-feedback">
+                                        <a href="/complaint/detail/{{$complaint['ticket_code']}}"
+                                           class="btn btn-warning">
                                             <i class="bi bi-search"></i> View Feedback
                                         </a>
                                     </div>
+                                    @if ($complaint['rating'])
+                                        <div>
+                                            Rating :
+                                            @for ($i = 0; $i < $complaint['rating']['rating_star'] ; $i++)
+                                                <span class="bi bi-star-fill" style="font-size: 16pt;color: #ffaf11"></span>
+                                            @endfor
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </x-card>

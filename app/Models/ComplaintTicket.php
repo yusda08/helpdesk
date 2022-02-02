@@ -28,7 +28,7 @@ class ComplaintTicket extends Model
         'updated_at'
     ];
 
-    protected $with = ['user_map', 'images'];
+    protected $with = ['user_map', 'images', 'feedbacks', 'rating'];
 
     public final function scopeSearch($query, array $filters)
     {
@@ -53,5 +53,15 @@ class ComplaintTicket extends Model
     public function user_map()
     {
         return $this->belongsTo(UserMap::class, 'unit_kerja_kode', 'unit_kerja_kode');
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(FeedbackTicket::class, 'ticket_code', 'ticket_code');
+    }
+
+    public function rating()
+    {
+        return $this->hasOne(RatingTicket::class, 'ticket_code', 'ticket_code');
     }
 }

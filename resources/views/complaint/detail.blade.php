@@ -1,6 +1,6 @@
 <x-app-layout title="Home Page">
     <div class="row-cols-1">
-        <h3 class="mb-0"><a href="{{ route('feedback') }}">Feedback</a> / <small>Detail</small></h3>
+        <h3 class="mb-0"><a href="{{ route('complaint') }}">Complaint</a> / <small>Detail</small></h3>
     </div>
     <div class="row">
         <div class="col-md-5">
@@ -77,38 +77,73 @@
                 @slot('header')
                     <div class="d-flex justify-content-between">
                         <div>Data Feedback</div>
-                        <div>
-                            <form action="/feedback/{{$complaint['ticket_code']}}"
-                                  method="post">
-                                @csrf
-                                @method('put')
-                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-power"></i> Feedback End
-                                </button>
-                            </form>
-                        </div>
                     </div>
                 @endslot
-                <form method="post" action="{{ route('feedback') }}" class="form-feedback">
-                    @csrf
-                    <div class="row mb-3">
-                        <div class="col-md-9">
-                            <div class="form-floating">
+                @if(session('msg'))
+                    <x-alert col="6" type="{{session('type')}}" status="{{session('status')}}"
+                             title="{{session('msg')}}"/>
+                @endif
+                @if ($complaint['ticket_status'] == 0)
+                    <form method="post" action="{{ route('feedback') }}" class="form-feedback">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-9">
+                                <div class="form-floating">
                         <textarea class="form-control" name="feedback_desc" autofocus="true"
                                   placeholder="Leave a comment here"
-                                  id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Feedback Description</label>
+                                  id="floatingTextarea2" style="height: 100px" required></textarea>
+                                    <label for="floatingTextarea2">Feedback Description</label>
+                                </div>
+                                <input type="hidden" name="nip" value="{{ $cookie->nip }}"/>
+                                <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
                             </div>
-                            <input type="hidden" name="user_id" value="{{ $cookie->id }}"/>
-                            <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
+                            <div class="col-md-3 d-grid gab-2">
+                                <button type="submit" class="btn btn-warning btn-send">
+                                    <i class="bi bi-send"></i> Send
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-3 d-grid gab-2">
-                            <button type="submit" class="btn btn-warning btn-send">
-                                <i class="bi bi-send"></i> Send
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <hr>
+                    </form>
+                    <hr>
+                @else
+                    @if($complaint['rating'])
+
+                    @else
+                            <form method="post" action="{{ route('rating-star') }}">
+                                @csrf
+                                <div class="row-cols-md-1 mb-3">
+                                    Rating :
+                                    @foreach($ratings as $i => $rating)
+                                        <div class="form-check">
+                                            <input class="form-check-input" value="{{$i}}"
+                                                   type="radio" name="rating_star"
+                                                   id="flexRadioDefault{{$i}}" required>
+                                            <label class="form-check-label" for="flexRadioDefault{{$i}}">
+                                                {{ $rating }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-9">
+                                        <div class="form-floating">
+                                    <textarea class="form-control" name="rating_desc" autofocus="true"
+                                              placeholder="Leave a comment here"
+                                              id="floatingTextarea2" style="height: 100px" required></textarea>
+                                            <label for="floatingTextarea2">Rating Description</label>
+                                        </div>
+                                        <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
+                                    </div>
+                                    <div class="col-md-3 d-grid gab-2">
+                                        <button type="submit" class="btn btn-warning">
+                                            <i class="bi bi-send"></i> Send Rating
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                    @endif
+                    <hr>
+                @endif
                 @foreach($complaint->feedbacks as $feedback)
                     <x-card>
                         <h5 class="card-title">{{ $feedback['feedback_desc'] }}</h5>

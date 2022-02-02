@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MappingController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,7 @@ Route::middleware(['logged'])->group(function () {
 
         Route::prefix('feedback')->controller(FeedbackController::class)->group(function () {
             Route::get('/', 'index')->name('feedback');
+            Route::post('/', 'store');
             Route::put('/{complaint_ticket:ticket_code}', 'updateStatus');
             Route::get('detail/{complaint_ticket:ticket_code}', 'detail')->name('feedback-detail');
         });
@@ -53,7 +55,10 @@ Route::middleware(['logged'])->group(function () {
         Route::prefix('unit')->controller(UnitController::class)->group(function () {
             Route::get('load-unit', 'loadUnit');
         });
+    });
 
+    Route::prefix('feedback')->controller(FeedbackController::class)->group(function () {
+        Route::post('/', 'store')->name('feedback');
     });
 
 //    Route::middleware(['subadmin'])->group(function () {
@@ -67,6 +72,10 @@ Route::middleware(['logged'])->group(function () {
             Route::post('store-image', 'storeImage')->name('store-image');
             Route::post('posting/{ticket}', 'posting');
             Route::post('delete', 'delete');
+            Route::get('detail/{complaint_ticket:ticket_code}', 'detail')->name('feedback-detail');
+        });
+        Route::prefix('rating')->controller(RatingController::class)->group(function () {
+            Route::post('/', 'store')->name('rating-star');
         });
     });
 

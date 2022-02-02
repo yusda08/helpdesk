@@ -19,4 +19,15 @@ class Controller extends BaseController
         session()->flash('status', $status);
     }
 
+    public final function ratings()
+    {
+        return [
+            '1' => 'Sangat Buruk',
+            '2' => 'Buruk',
+            '3' => 'Cukup',
+            '4' => 'Baik',
+            '5' => 'Sangat Baik',
+        ];
+    }
+
 }

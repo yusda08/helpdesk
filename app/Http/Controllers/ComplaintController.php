@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
 use App\Http\Requests\ComplaintRequest;
-use App\Models\ComplaintImage;
 use App\Models\ComplaintTicket;
+use App\Models\FeedbackTicket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -25,6 +25,17 @@ class ComplaintController extends Controller
         ]);
     }
 
+    public function detail(ComplaintTicket $complaint_ticket)
+    {
+        return view('complaint.detail', [
+            'complaint' => $complaint_ticket,
+            'cookie' => CookieHelper::logAccess()->pegawai,
+            'ratings' => $this->ratings(),
+            'feedbacks' => FeedbackTicket::where('ticket_code', $complaint_ticket->ticked_code)
+                ->latest()->get()
+        ]);
+    }
+
     public function store(ComplaintRequest $request)
     {
         try {
@@ -39,7 +50,6 @@ class ComplaintController extends Controller
         $this->setFlash($response['message'], $response['status']);
         return back();
     }
-
 
     public final function delete(Request $request): \Illuminate\Http\JsonResponse
     {
