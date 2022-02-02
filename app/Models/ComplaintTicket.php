@@ -19,7 +19,7 @@ class ComplaintTicket extends Model
         'employee_name',
         'employee_position',
         'employee_unit',
-        'employee_satket',
+        'employee_satker',
         'ticket_title',
         'ticket_desc',
         'ticket_date',

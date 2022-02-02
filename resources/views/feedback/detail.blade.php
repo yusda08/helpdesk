@@ -52,7 +52,7 @@
                         <td width="30%">Satuan Kerja</td>
                         <td width="3%">:</td>
                         <td class="col-auto">
-                            {{ $complaint['employee_satket'] }}
+                            {{ $complaint['employee_satker'] }}
                         </td>
                     </tr>
                     </tbody>
