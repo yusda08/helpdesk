@@ -28,6 +28,7 @@ class ComplaintTicket extends Model
         'updated_at'
     ];
 
+
     protected $with = ['user_map', 'images', 'feedbacks', 'rating'];
 
     public final function scopeSearch($query, array $filters)

@@ -15,7 +15,6 @@ class ComplaintController extends Controller
 
     public function index()
     {
-
         $pegawai = CookieHelper::logAccess()->pegawai;
         return view('complaint.index', [
             'complaints' => ComplaintTicket::search(request(['search']))
