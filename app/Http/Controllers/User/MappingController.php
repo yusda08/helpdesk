@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Helpers\HelperResponse;
+use App\Http\Controllers\Controller;
 use App\Models\UnitKerjaApik;
 use App\Models\User;
 use App\Models\UserMap;
 use Illuminate\Http\Request;
+use function back;
+use function response;
+use function view;
 
 class MappingController extends Controller
 {

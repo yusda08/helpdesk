@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Helpers\CookieHelper;
 use App\Helpers\HelperResponse;
-use App\Services\AuthService;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
+use function response;
 
 class LogoutController extends Controller
 {

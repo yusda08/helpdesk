@@ -1,12 +1,12 @@
 <x-app-layout title="Home Page">
-    <div class="row-cols-1">
-        <h3 class="mb-0"><a href="{{ route('feedback') }}">Feedback</a> / <small>Detail</small></h3>
-    </div>
+    <x-slot name="ribbon">
+        <a href="{{ route('feedback') }}">Feedback</a> / <small>Detail</small>
+    </x-slot>
     <div class="row">
         <div class="col-md-5">
             <x-card>
                 <h4>Ticket : {{ $complaint['ticket_code'] }}</h4>
-                <table class="table">
+                <table class="table table-sm">
                     <tbody>
                     <tr>
                         <td width="30%">Judul</td>
@@ -57,7 +57,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <div class="row mt-3">
                     @foreach($complaint['images'] as $image)
                         <div class="col-md-6">
                             <a href="{{ asset('storage/'.$image['file_image']) }}" target="_blank">
@@ -68,9 +68,6 @@
                     @endforeach
                 </div>
             </x-card>
-            <pre>
-                {{ json_encode($complaint, 128) }}
-            </pre>
         </div>
         <div class="col-md-7">
             <x-card>
@@ -78,42 +75,55 @@
                     <div class="d-flex justify-content-between">
                         <div>Data Feedback</div>
                         <div>
-                            <form action="/feedback/{{$complaint['ticket_code']}}"
-                                  method="post">
-                                @csrf
-                                @method('put')
-                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-power"></i> Feedback End
-                                </button>
-                            </form>
+                            @if (!$complaint['ticket_status'])
+                                <form action="/feedback/{{$complaint['ticket_code']}}"
+                                      method="post">
+                                    @csrf
+                                    @method('put')
+                                    <button class="btn btn-outline-danger btn-sm"><i class="bi bi-power"></i> Feedback
+                                        End
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 @endslot
-                <form method="post" action="{{ route('feedback') }}" class="form-feedback">
-                    @csrf
-                    <div class="row mb-3">
-                        <div class="col-md-9">
-                            <div class="form-floating">
+                @if (!$complaint['ticket_status'])
+                    <form method="post" action="{{ route('feedback') }}" class="form-feedback">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-9">
+                                <div class="form-floating">
                         <textarea class="form-control" name="feedback_desc" autofocus="true"
                                   placeholder="Leave a comment here"
                                   id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Feedback Description</label>
+                                    <label for="floatingTextarea2">Feedback Description</label>
+                                </div>
+                                <input type="hidden" name="user_id" value="{{ $cookie->id }}"/>
+                                <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
                             </div>
-                            <input type="hidden" name="user_id" value="{{ $cookie->id }}"/>
-                            <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
+                            <div class="col-md-3 d-grid gab-2">
+                                <button type="submit" class="btn btn-warning btn-send">
+                                    <i class="bi bi-send"></i> Send
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-3 d-grid gab-2">
-                            <button type="submit" class="btn btn-warning btn-send">
-                                <i class="bi bi-send"></i> Send
-                            </button>
+                    </form>
+                    <hr>
+                @endif
+                @foreach($complaint->feedbacks as $feedback)
+                    <div class="direct-chat-msg {{$feedback->nip ? 'right' : ''}} mb-3">
+                        <div class="direct-chat-infos clearfix">
+                            <span
+                                class="direct-chat-name {{$feedback->nip ? 'float-right' : 'float-left'}}">{{ $feedback->nip ?? 'Administrator' }}</span>
+                            <span
+                                class="direct-chat-timestamp {{$feedback->nip ? 'float-left' : 'float-right'}}">{{  $feedback->created_at->diffForHumans()}}</span>
+                        </div>
+                        <img class="direct-chat-img" src="/images/{{$feedback->nip ? 'avatar.png' : 'logo.png'}}">
+                        <div class="direct-chat-text {{ $feedback->nip ? 'bg-gray-light' : '' }}">
+                            {{ $feedback['feedback_desc'] }}
                         </div>
                     </div>
-                </form>
-                <hr>
-                @foreach($complaint->feedbacks as $feedback)
-                    <x-card>
-                        <h5 class="card-title">{{ $feedback['feedback_desc'] }}</h5>
-                        <small class="text-muted">{{  $feedback->created_at->diffForHumans()}}</small>
-                    </x-card>
                 @endforeach
             </x-card>
         </div>

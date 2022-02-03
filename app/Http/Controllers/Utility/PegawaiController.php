@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Utility;
 
 use App\Helpers\HelperResponse;
+use App\Http\Controllers\Controller;
 use App\Models\UserApik;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
+use function response;
 
 class PegawaiController extends Controller
 {

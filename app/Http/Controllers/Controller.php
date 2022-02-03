@@ -30,4 +30,12 @@ class Controller extends BaseController
         ];
     }
 
+    public final function categories()
+    {
+        return [
+            'Reset Akun',
+            'Lainnya',
+        ];
+    }
+
 }

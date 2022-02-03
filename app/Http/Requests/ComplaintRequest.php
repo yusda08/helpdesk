@@ -24,6 +24,7 @@ class ComplaintRequest extends FormRequest
     public function rules()
     {
         return [
+            'ticket_categories.*' => 'required|array',
             'ticket_title' => 'required',
             'ticket_desc' => 'required',
             'nip' => 'required',

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Complaint;
 
 use App\Helpers\HelperResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ComplaintImageRequest;
 use App\Models\ComplaintImage;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use function back;
+use function response;
 
 class ComplaintImageController extends Controller
 {

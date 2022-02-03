@@ -31,13 +31,16 @@ class Navbar extends Component
             if ($administrator->level_id === 1) {
                 $navbar = [
                     'Home' => '/',
+                    'Reset Account' => '/reset',
                     'Users' => '/user',
                     'Mapping' => '/mapping',
                 ];
             } elseif ($administrator->level_id === 2) {
                 $navbar = [
                     'Home' => '/',
-                    'Feedback' => '/feedback'
+                    'Reset Account' => '/reset',
+                    'Feedback' => '/feedback',
+                    'History' => '/feedback/history'
                 ];
             }
         }

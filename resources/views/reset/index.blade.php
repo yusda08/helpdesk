@@ -1,7 +1,7 @@
 <x-app-layout title="Home Page">
-    <div class="row-cols-1">
-        <h3 class="mb-0">Form Helpdesk</h3>
-    </div>
+    <x-slot name="ribbon">
+        Home
+    </x-slot>
     <div class="row">
         <div class="col-md-4">
             <x-card>
@@ -14,10 +14,6 @@
                         <option selected disabled value="">.: Masukan NIP :.</option>
                     </select>
                 </div>
-            </x-card>
-            <x-card>
-                <h5 class="card-title">Total Complaint</h5>
-                <p class="card-text fs-3">100</p>
             </x-card>
         </div>
         <div class="col-md-8">

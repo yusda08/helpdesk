@@ -11,22 +11,23 @@
 <section class="h-100 w-100" style="box-sizing: border-box; background-color: #232130">
     <div class="content-3-6 d-flex flex-column align-items-center h-100 flex-lg-row"
          style="font-family: 'Poppins', sans-serif;">
-        <div class="position-relative d-none d-lg-block h-100 width-left">
+        <div class="position-relative d-none d-lg-block width-left">
             <img class="position-absolute img-fluid centered"
                  src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-11.png"
                  alt="">
         </div>
-        <div class="d-flex mx-auto align-items-left justify-content-left width-right mx-lg-0">
+        <div class="d-flex mx-auto align-items-left justify-content-left width-right mx-lg-0" style="padding: 40px">
             <div class="right mx-lg-0 mx-auto">
-                <div class="align-items-center justify-content-center d-lg-none d-flex">
-                    <img class="img-fluid"
-                         src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-11.png"
+                <div class="align-items-center justify-content-center d-flex mb-3">
+                    <img class="img-fluid w-25 rounded-pill"
+                         src="/images/logo.png"
                          alt="">
                 </div>
-                <h3 class="title-text">Form Log In Helpdesk</h3>
-                <p class="caption-text">Please log in using that account has registered.</p>
-                {{ json_encode($cookie, 128) }}
-                <form style="margin-top: 1.5rem;" action="{{ route('login') }}" method="post" class="form-login">
+                <div class="text-center">
+                    <h5 class="text-white">Helpdesk APIK</h5>
+                    <p class="caption-text">Silahkan masuk dengan akun SIMPEG.</p>
+                </div>
+                <form action="{{ route('login') }}" method="post" class="form-login">
                     @csrf
                     <div style="margin-bottom: 1.75rem;">
                         <label for="" class="d-block input-label">Username</label>
@@ -51,7 +52,7 @@
                                       d="M7.81592 4.25974C7.12462 5.48872 7 6.95088 7 8H6C4.34315 8 3 9.34315 3 11V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V11C21 9.34315 19.6569 8 18 8L17 7.99998C17 6.95087 16.8754 5.48871 16.1841 4.25973C15.829 3.62845 15.3194 3.05012 14.6031 2.63486C13.8875 2.22005 13.021 2 12 2C10.979 2 10.1125 2.22005 9.39691 2.63486C8.68058 3.05012 8.17102 3.62845 7.81592 4.25974ZM9.55908 5.24026C9.12538 6.01128 9 7.04912 9 8H15C15 7.04911 14.8746 6.01129 14.4409 5.24027C14.2335 4.87155 13.9618 4.57488 13.6 4.36514C13.2375 4.15495 12.729 4 12 4C11.271 4 10.7625 4.15495 10.4 4.36514C10.0382 4.57488 9.76648 4.87155 9.55908 5.24026ZM14 14C14 14.7403 13.5978 15.3866 13 15.7324V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V15.7324C10.4022 15.3866 10 14.7403 10 14C10 12.8954 10.8954 12 12 12C13.1046 12 14 12.8954 14 14Z"
                                       fill="#4E4B62"/>
                             </svg>
-                            <input class="input-field" type="" name="password"
+                            <input class="input-field" type="password" name="password"
                                    id="password-content-3-6" placeholder="Your Password" minlength="6"
                                    value="ghazali2014" required>
                             <div onclick="togglePassword()">
@@ -69,12 +70,12 @@
                 </form>
             </div>
         </div>
-        <footer class="footer d-sm-block d-none">
-            <div class="container">
-                <span class="text-muted">Aplikasi Kinerja Pemerintah Provinsi Kalimantan Selatan.</span>
-            </div>
-        </footer>
     </div>
+    <footer class="footer d-sm-block d-none">
+        <div class="container">
+            <span class="text-muted">Aplikasi Kinerja Pemerintah Provinsi Kalimantan Selatan.</span>
+        </div>
+    </footer>
     <script src="{{ mix('js/app.js') }}"></script>
 
     <script>

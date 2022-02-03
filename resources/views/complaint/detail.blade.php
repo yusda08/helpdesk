@@ -1,12 +1,12 @@
 <x-app-layout title="Home Page">
-    <div class="row-cols-1">
-        <h3 class="mb-0"><a href="{{ route('complaint') }}">Complaint</a> / <small>Detail</small></h3>
-    </div>
+    <x-slot name="ribbon">
+        <a href="{{ route('complaint') }}">Complaint</a> / <small>Detail</small>
+    </x-slot>
     <div class="row">
         <div class="col-md-5">
             <x-card>
                 <h4>Ticket : {{ $complaint['ticket_code'] }}</h4>
-                <table class="table">
+                <table class="table table-sm">
                     <tbody>
                     <tr>
                         <td width="30%">Judul</td>
@@ -57,7 +57,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <div class="row mt-3">
                     @foreach($complaint['images'] as $image)
                         <div class="col-md-6">
                             <a href="{{ asset('storage/'.$image['file_image']) }}" target="_blank">
@@ -68,9 +68,6 @@
                     @endforeach
                 </div>
             </x-card>
-            <pre>
-                {{ json_encode($complaint, 128) }}
-            </pre>
         </div>
         <div class="col-md-7">
             <x-card>
@@ -109,46 +106,54 @@
                     @if($complaint['rating'])
 
                     @else
-                            <form method="post" action="{{ route('rating-star') }}">
-                                @csrf
-                                <div class="row-cols-md-1 mb-3">
-                                    Rating :
-                                    @foreach($ratings as $i => $rating)
-                                        <div class="form-check">
-                                            <input class="form-check-input" value="{{$i}}"
-                                                   type="radio" name="rating_star"
-                                                   id="flexRadioDefault{{$i}}" required>
-                                            <label class="form-check-label" for="flexRadioDefault{{$i}}">
-                                                {{ $rating }}
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-9">
-                                        <div class="form-floating">
+                        <form method="post" action="{{ route('rating-star') }}">
+                            @csrf
+                            <div class="row-cols-md-1 mb-3">
+                                Rating :
+                                @foreach($ratings as $i => $rating)
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="{{$i}}"
+                                               type="radio" name="rating_star"
+                                               id="flexRadioDefault{{$i}}" required>
+                                        <label class="form-check-label" for="flexRadioDefault{{$i}}">
+                                            {{ $rating }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-9">
+                                    <div class="form-floating">
                                     <textarea class="form-control" name="rating_desc" autofocus="true"
                                               placeholder="Leave a comment here"
                                               id="floatingTextarea2" style="height: 100px" required></textarea>
-                                            <label for="floatingTextarea2">Rating Description</label>
-                                        </div>
-                                        <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
+                                        <label for="floatingTextarea2">Rating Description</label>
                                     </div>
-                                    <div class="col-md-3 d-grid gab-2">
-                                        <button type="submit" class="btn btn-warning">
-                                            <i class="bi bi-send"></i> Send Rating
-                                        </button>
-                                    </div>
+                                    <input type="hidden" name="ticket_code" value="{{ $complaint['ticket_code'] }}"/>
                                 </div>
-                            </form>
+                                <div class="col-md-3 d-grid gab-2">
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="bi bi-send"></i> Send Rating
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
                     @endif
-                    <hr>
                 @endif
                 @foreach($complaint->feedbacks as $feedback)
-                    <x-card>
-                        <h5 class="card-title">{{ $feedback['feedback_desc'] }}</h5>
-                        <small class="text-muted">{{  $feedback->created_at->diffForHumans()}}</small>
-                    </x-card>
+                    <div class="direct-chat-msg {{$feedback->nip ? 'right' : ''}} mb-3">
+                        <div class="direct-chat-infos clearfix">
+                            <span
+                                class="direct-chat-name {{$feedback->nip ? 'float-right' : 'float-left'}}">{{ $feedback->nip ?? 'Administrator' }}</span>
+                            <span
+                                class="direct-chat-timestamp {{$feedback->nip ? 'float-left' : 'float-right'}}">{{  $feedback->created_at->diffForHumans()}}</span>
+                        </div>
+                        <img class="direct-chat-img" src="/images/{{$feedback->nip ? 'avatar.png' : 'logo.png'}}">
+                        <div class="direct-chat-text {{ $feedback->nip ? 'bg-gray-light' : '' }}">
+                            {{ $feedback['feedback_desc'] }}
+                        </div>
+                    </div>
                 @endforeach
             </x-card>
         </div>

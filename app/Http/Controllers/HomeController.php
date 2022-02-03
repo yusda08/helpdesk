@@ -4,20 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Helpers\CookieHelper;
 use App\Models\UserApik;
+use App\Models\UserMap;
 
 class HomeController extends Controller
 {
 
-    private PegawaiController $Pegawai;
-
     public function __construct()
     {
-        $this->Pegawai = new PegawaiController();
     }
 
     public function __invoke()
     {
         $get['cookie'] = CookieHelper::logAccess();
-        return view('home', $get);
+        $administrator = $get['cookie']->administrator;
+        if ($administrator->level_id === 1) {
+            $get['maps'] = UserMap::all();
+        } elseif ($administrator->level_id === 2) {
+            $get['maps'] = UserMap::where('user_id', $administrator->id)->get();
+        }
+        return view('home.admin', $get);
     }
 }

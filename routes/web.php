@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\ComplaintController;
-use App\Http\Controllers\ComplaintImageController;
-use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Complaint\ComplaintController;
+use App\Http\Controllers\Complaint\ComplaintImageController;
+use App\Http\Controllers\Complaint\RatingController;
+use App\Http\Controllers\Feedback\FeedbackController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\MappingController;
-use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\RatingController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Reset\ResetController;
+use App\Http\Controllers\User\MappingController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Utility\PegawaiController;
+use App\Http\Controllers\Utility\UnitController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,6 +30,7 @@ Route::middleware(['logged'])->group(function () {
 
     Route::middleware(['administrator'])->group(function () {
         Route::get('home', HomeController::class)->name('home');
+        Route::get('reset', ResetController::class)->name('reset');
 
         Route::middleware(['admin'])->group(function () {
             Route::prefix('user')->controller(UserController::class)->group(function () {
@@ -47,6 +49,7 @@ Route::middleware(['logged'])->group(function () {
 
         Route::prefix('feedback')->controller(FeedbackController::class)->group(function () {
             Route::get('/', 'index')->name('feedback');
+            Route::get('/history', 'history')->name('history');
             Route::post('/', 'store');
             Route::put('/{complaint_ticket:ticket_code}', 'updateStatus');
             Route::get('detail/{complaint_ticket:ticket_code}', 'detail')->name('feedback-detail');
@@ -60,10 +63,6 @@ Route::middleware(['logged'])->group(function () {
     Route::prefix('feedback')->controller(FeedbackController::class)->group(function () {
         Route::post('/', 'store')->name('feedback');
     });
-
-//    Route::middleware(['subadmin'])->group(function () {
-//        Route::get('home', HomeController::class)->name('home');
-//    });
 
     Route::middleware(['pegawai'])->group(function () {
         Route::prefix('complaint')->controller(ComplaintController::class)->group(function () {

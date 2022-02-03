@@ -1,5 +1,5 @@
 @php($log = (array)\App\Helpers\CookieHelper::logAccess())
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-warning shadow-lg mb-2">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-warning shadow-lg">
     <div class="container">
         <div class="navbar-header">
             <img src="/images/logo.png" class="me-2" height="30" loading="lazy"/>
@@ -11,9 +11,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto">
                 @foreach($navbar as $name => $url)
-                    <li class="nav-item mx-2">
+                    <li class="nav-item">
                         <a style="color: black; font-weight: bold" class="nav-link" href="{{$url}}">{{ $name }}</a>
                     </li>
                 @endforeach
@@ -31,11 +31,7 @@
                         @endisset
 
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item " href="#">Profile</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li>
                             {{--                            <form action="{{route('logout')}}" method="post">--}}
                             {{--                                @csrf--}}
