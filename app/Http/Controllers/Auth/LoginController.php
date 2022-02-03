@@ -21,8 +21,7 @@ class LoginController extends Controller
 
     public function index()
     {
-        $get['cookie'] = CookieHelper::logAccess();
-        return view('auth.login', $get);
+        return view('auth.login');
     }
 
 

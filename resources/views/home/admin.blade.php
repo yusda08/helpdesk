@@ -10,6 +10,10 @@
         </x-box>
         <x-box bgcolor="bg-warning">
             <h3 class="total-end">0</h3>
+            <p>Complain Pending</p>
+        </x-box>
+        <x-box bgcolor="bg-warning">
+            <h3 class="total-end">0</h3>
             <p>Complain End</p>
         </x-box>
         <div class="col-md-8">
