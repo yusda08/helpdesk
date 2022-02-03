@@ -36,3 +36,23 @@
  *
  * Date: 2021-03-02T17:08Z
  */
+
+/*! Bootstrap integration for DataTables' Responsive
+ * ©2015-2016 SpryMedia Ltd - datatables.net/license
+ */
+
+/*! DataTables 1.11.4
+ * ©2008-2021 SpryMedia Ltd - datatables.net/license
+ */
+
+/*! DataTables Bootstrap 3 integration
+ * ©2011-2015 SpryMedia Ltd - datatables.net/license
+ */
+
+/*! DataTables Bootstrap 5 integration
+ * 2020 SpryMedia Ltd - datatables.net/license
+ */
+
+/*! Responsive 2.2.9
+ * 2014-2021 SpryMedia Ltd - datatables.net/license
+ */
